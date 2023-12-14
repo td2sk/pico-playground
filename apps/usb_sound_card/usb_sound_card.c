@@ -592,6 +592,10 @@ int main(void) {
     //gpio_debug_pins_init();
     puts("USB SOUND CARD");
 
+    gpio_init(23);
+    gpio_set_dir(23, GPIO_OUT);
+    gpio_put(23, 1);
+
 #ifndef NDEBUG
     for(uint i=0;i<count_of(audio_device_config.as_audio.format.freqs);i++) {
         uint freq = audio_device_config.as_audio.format.freqs[i].Byte1 |
