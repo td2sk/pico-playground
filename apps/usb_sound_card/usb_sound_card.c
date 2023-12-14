@@ -428,6 +428,7 @@ static void audio_set_volume(int16_t volume) {
     // todo interpolate
     volume += CENTER_VOLUME_INDEX * 256;
     if (volume < 0) volume = 0;
+    if (audio_state.mute) volume = 0;
     if (volume >= count_of(db_to_vol) * 256) volume = count_of(db_to_vol) * 256 - 1;
     audio_state.vol_mul = db_to_vol[((uint16_t)volume) >> 8u];
 //    printf("VOL MUL %04x\n", audio_state.vol_mul);
@@ -443,6 +444,8 @@ static void audio_cmd_packet(struct usb_endpoint *ep) {
                 case FEATURE_MUTE_CONTROL: {
                     audio_state.mute = buffer->data[0];
                     usb_warn("Set Mute %d\n", buffer->data[0]);
+                    // workaround: Instead of stopping the DAC, the mute is accomplished by calling the volume setting function and setting the volume to zero in the function.
+                    audio_set_volume(audio_state.volume);
                     break;
                 }
                 case FEATURE_VOLUME_CONTROL: {
