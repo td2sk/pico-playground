@@ -20,6 +20,9 @@ if (TARGET usb_device)
 
             PICO_AUDIO_I2S_MONO_OUTPUT=0
             PICO_AUDIO_I2S_MONO_INPUT=0
+
+            PICO_AUDIO_I2S_DATA_PIN=22
+            PICO_AUDIO_I2S_CLOCK_PIN_BASE=20
     )
 
     target_link_libraries(usb_sound_card pico_stdlib usb_device pico_audio_i2s pico_multicore)
